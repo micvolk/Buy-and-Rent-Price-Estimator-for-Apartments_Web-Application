@@ -404,11 +404,13 @@ def predict():
 
                 <h1 style="margin-top: 1.5em;">More Information</h1>
                             
-                This Buy & Rent Price Estimator App is part of my project: [PLACEHOLDER] <br/>
+                This Buy & Rent Price Estimator App is part of my project:
+                <a href="https://micvolk.github.io/Buy-and-Rent-Price-Estimator-for-Apartments">micvolk.github.io/Buy-and-Rent-Price-Estimator-for-Apartments</a> <br/>
                 Visit the website and get a detailed description of the steps for building this App - starting from scraping, preparing and exploring the data from
                 <a href="https://www.immowelt.de">immowelt.de</a>, evaluating different machine learning models
-                and ending with transferring the best model into production by building this App. <br/>
-                To see a detailed and visualised exploration of the prepared data please follow this link: [PLACEHOLDER]
+                and ending with transferring the best model into production by building this App.
+                To see a detailed and visualised exploration of the prepared data please follow this link:
+                <a href="https://micvolk.github.io/Buy-and-Rent-Price-Estimator-for-Apartments/presentation/Exploring.html">micvolk.github.io/Buy-and-Rent-Price-Estimator-for-Apartments/presentation/Exploring.html</a>
                 
                 <p style="margin-top: 2.5em"><em>Author: <a href="https://github.com/micvolk">Michael Volk</a></em><br>
                 
