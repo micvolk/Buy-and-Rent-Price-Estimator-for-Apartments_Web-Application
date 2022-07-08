@@ -21,7 +21,7 @@ By calling the link, the user automatically sends a request to the *app.py* depl
  
 <img src="presentation/Web-App_Input.PNG">
 
-After filling out the formular and hitting the submit-button the formular-input is sent to the app via a POST-request. Then a buy & rent price estimation is performed, which is based on the formular-input-data and the deposited best model (*'model_buy.p', 'model_rent.p'*) created by *modeling.py*. The buy- & rent-estimation-values together with associated confidence-intervalls, which are derived from the also deposited 90%-quantile relative error of the model-test-validation, are then returned
+After filling out the formular and hitting the submit-button the formular-input is sent to the app via a POST-request. Then a buy & rent price estimation is performed, which is based on the formular-input-data and the deposited best model (*model_buy.p*, *model_rent.p*) created by *modeling.py*. The buy- & rent-estimation-values together with associated confidence-intervalls, which are derived from the also deposited 90%-quantile relative error of the model-test-validation, are then returned
 via a new HTML-page:
 
 <img src="presentation/Web-App_Output.PNG">
