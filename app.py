@@ -375,10 +375,10 @@ def predict():
   
                 <table>
                     <tr>
-                        <th>Estimation-Type</th>
-                        <th>Estimation-Value</th>
-                        <th>Lower 5% threshold</th>
-                        <th>Upper 5% threshold</th>
+                        <th>Estimation Type</th>
+                        <th>Estimated Value</th>
+                        <th>Lower Bound</th>
+                        <th>Upper Bound</th>
                     </tr>
                     <tr>
                         <th>Buy-price</th>
@@ -387,10 +387,22 @@ def predict():
                         <td>{:,.0f} €</td>
                     </tr>
                     <tr>
-                        <th>Rent-price (cold)</th>
+                        <th>Buy-price per Area</th>
+                        <td>{:,.0f} €/m\u00b2</td>
+                        <td>{:,.0f} €/m\u00b2</td>
+                        <td>{:,.0f} €/m\u00b2</td>
+                    </tr>
+                    <tr>
+                        <th>Rent-price</th>
                         <td>{:,.0f} €</td>
                         <td>{:,.0f} €</td>
                         <td>{:,.0f} €</td>
+                    </tr>
+                    <tr>
+                        <th>Rent-price per Area</th>
+                        <td>{:,.1f} €/m\u00b2</td>
+                        <td>{:,.1f} €/m\u00b2</td>
+                        <td>{:,.1f} €/m\u00b2</td>
                     </tr>
                     <tr>
                         <th>Buy-to-Rent-ratio</th>
@@ -402,6 +414,13 @@ def predict():
                     </tr>
                 </table>
 
+                <h1 style="margin-top: 1.5em;">Hints</h1>
+                
+                <ul>
+                  <li>Monthly cold Rent-price is estimated and shown, while the shown Buy-to-Rent-ratio and Rent-to-Buy-ratio are based on yearly cold Rent price</li>
+                  <li>Lower and Upper Bound define a simplified 90% Confidence Intervall for the actual price: it is expected that round about 5% of actual prices are below the Lower and round about 5% are above the Upper Bound</li>
+                </ul>
+                            
                 <h1 style="margin-top: 1.5em;">More Information</h1>
                             
                 This Buy & Rent Price Estimator App is part of my project:
@@ -421,9 +440,19 @@ def predict():
                         results['y_predicted_buy'],
                         results['y_min_90%_buy'],
                         results['y_max_90%_buy'],
+                        
+                        results['y_predicted_buy'] / x_dict['Area'],
+                        results['y_min_90%_buy'] / x_dict['Area'],
+                        results['y_max_90%_buy'] / x_dict['Area'],
+                        
                         results['y_predicted_rent'],
                         results['y_min_90%_rent'],
                         results['y_max_90%_rent'],
+                        
+                        results['y_predicted_rent'] / x_dict['Area'],
+                        results['y_min_90%_rent'] / x_dict['Area'],
+                        results['y_max_90%_rent'] / x_dict['Area'],
+                        
                         results['y_predicted_buy']/(12 * results['y_predicted_rent']),
                         (12 * results['y_predicted_rent'])/results['y_predicted_buy']*100
                         )
