@@ -33,6 +33,7 @@ def load_modelConfigurations():
             modelConfigs['model' + cat] = data['model']
             modelConfigs['columns_used' + cat] = data['columns_used']
             modelConfigs['test_errors' + cat] = data['test_errors']
+            modelConfigs['test_errors_notAbsolute' + cat] = data['test_errors_notAbsolute']
     return modelConfigs
 
 def load_cityCoordinates(filename = "nrwCityCoordinates.csv"):    
@@ -338,11 +339,15 @@ def predict():
             # Make prediction with model for given input-data and retransform it using np.exp()
             results['y_predicted'+cat] = np.exp(modelConfigs['model' + cat].predict(results['x_in'+cat])[0])
             
-            # Calculate confidence-intervall of predicted value
-            results['test_errorfactors_quantile_90%'+cat] = np.exp(
-                modelConfigs['test_errors' + cat].quantile(q=0.90))
-            results['y_min_90%'+cat] = results['y_predicted'+cat] / results['test_errorfactors_quantile_90%'+cat]
-            results['y_max_90%'+cat] = results['y_predicted'+cat] * results['test_errorfactors_quantile_90%'+cat]
+            # Calculate confidence-intervall of predicted value            
+            results['y_lowerBound_5%' + cat] = (
+                results['y_predicted' + cat] / np.exp(modelConfigs['test_errors_notAbsolute' + cat].quantile(q=0.95))
+                )
+            results['y_upperBound_5%' + cat] = (
+                results['y_predicted' + cat] / np.exp(modelConfigs['test_errors_notAbsolute' + cat].quantile(q=0.05))
+                )
+
+
                         
         # Return the apartment-configuration and the prediction results as 2 html-tables
         return """
@@ -417,8 +422,8 @@ def predict():
                 <h1 style="margin-top: 1.5em;">Hints</h1>
                 
                 <ul>
-                  <li>Monthly cold Rent-price is estimated and shown, while the shown Buy-to-Rent-ratio and Rent-to-Buy-ratio are based on yearly cold Rent price</li>
-                  <li>Lower and Upper Bound define a simplified 90% Confidence Intervall for the actual price: it is expected that round about 5% of actual prices are below the Lower and round about 5% are above the Upper Bound</li>
+                  <li>Rent-price is shown on cold & monthly basis, while the shown Buy-to-Rent-ratio and Rent-to-Buy-ratio are based on yearly cold Rent-price</li>
+                  <li>Lower and Upper Bound define a 90% Confidence Intervall for the actual price: it is expected that round about 5% of actual prices are below the Lower and round about 5% are above the Upper Bound</li>
                 </ul>
                             
                 <h1 style="margin-top: 1.5em;">More Information</h1>
@@ -438,20 +443,20 @@ def predict():
                 
                 """.format(
                         results['y_predicted_buy'],
-                        results['y_min_90%_buy'],
-                        results['y_max_90%_buy'],
+                        results['y_lowerBound_5%_buy'],
+                        results['y_upperBound_5%_buy'],
                         
                         results['y_predicted_buy'] / x_dict['Area'],
-                        results['y_min_90%_buy'] / x_dict['Area'],
-                        results['y_max_90%_buy'] / x_dict['Area'],
+                        results['y_lowerBound_5%_buy'] / x_dict['Area'],
+                        results['y_upperBound_5%_buy'] / x_dict['Area'],
                         
                         results['y_predicted_rent'],
-                        results['y_min_90%_rent'],
-                        results['y_max_90%_rent'],
+                        results['y_lowerBound_5%_rent'],
+                        results['y_upperBound_5%_rent'],
                         
                         results['y_predicted_rent'] / x_dict['Area'],
-                        results['y_min_90%_rent'] / x_dict['Area'],
-                        results['y_max_90%_rent'] / x_dict['Area'],
+                        results['y_lowerBound_5%_rent'] / x_dict['Area'],
+                        results['y_upperBound_5%_rent'] / x_dict['Area'],
                         
                         results['y_predicted_buy']/(12 * results['y_predicted_rent']),
                         (12 * results['y_predicted_rent'])/results['y_predicted_buy']*100
