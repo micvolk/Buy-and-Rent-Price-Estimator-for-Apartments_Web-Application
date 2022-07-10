@@ -60,7 +60,10 @@ def dictToHTMLTable(dictionary, specialKeys):
     dict_HTML = """<table>"""
     for key in dictionary:
         if key != "chooseLocation": #shall not be listed in html-table
-            dict_HTML += """<tr><td><b>""" + key + """: </b></td>"""
+            if key !="Construction_Year":
+                dict_HTML += """<tr><td><b>""" + key + """: </b></td>"""
+            else: #Shown name of Construction_Year shall be 'Construction Year'
+                dict_HTML += """<tr><td><b>Construction Year: </b></td>"""            
             if key not in specialKeys:
                 dict_HTML += """<td>""" + dictionary[key] + """</td>"""
             else:
@@ -167,8 +170,8 @@ def predict():
                         <td><input type="number" name="Rooms" min="1" max="7" step="1" value="4"></td>
                       </tr>
                       <tr>
-                        <td><b>Year: </b></td>
-                        <td><input type="number" name="Year" min="1850" max="2021" step="1" value="2010"></td>
+                        <td><b>Construction Year: </b></td>
+                        <td><input type="number" name="Construction_Year" min="1850" max="2021" step="1" value="2010"></td>
                       </tr>
                       <tr>
                         <td></td>
@@ -252,7 +255,7 @@ def predict():
                 myform.addEventListener('submit', function (evt) {
                    let error = false; 
                    if (
-                           (myform.chooseLocation.value=='cityname' && myform.Cityname.value=='') || (myform.chooseLocation.value=='coordinates' && (myform.Latitude.value=='' || myform.Longitude.value=='')) || (myform.Area.value=='' || myform.Rooms.value=='' || myform.Year.value=='')
+                           (myform.chooseLocation.value=='cityname' && myform.Cityname.value=='') || (myform.chooseLocation.value=='coordinates' && (myform.Latitude.value=='' || myform.Longitude.value=='')) || (myform.Area.value=='' || myform.Rooms.value=='' || myform.Construction_Year.value=='')
                        ) {
                        error = true
                    }
@@ -288,7 +291,7 @@ def predict():
         # Create dictionary which maps numerical model-features to numerical formular-data-element-names
         map_num = {'Area': 'Area',
                    'Rooms': 'Rooms',
-                   'ConstructionYear': 'Year'
+                   'ConstructionYear': 'Construction_Year'
                   }
         # Create dictionary which maps categorical model-features to categorical formular-data-element-names
         map_cat = { 'EQ_CAT_floorApartment': ('Category', 'Floor-Apartment'),
